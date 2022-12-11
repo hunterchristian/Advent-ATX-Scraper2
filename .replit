@@ -1,6 +1,6 @@
 compile = "./.config/build.sh"
-run = "node --enable-source-maps .build/index.js"
-entrypoint = "index.ts"
+run = "node --enable-source-maps .build/src/index.js"
+entrypoint = "src/index.ts"
 
 [languages.typescript]
 pattern = "**/{*.ts,*.js,*.tsx,*.jsx}"
