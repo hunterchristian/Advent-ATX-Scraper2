@@ -12,7 +12,7 @@ import { FieldSet, Record as AirtableRecord } from 'airtable';
 PubSub.getInstance().subscribe('events:created', async (data) => {
   console.log('Posting to Slack...');
 
-  let message = `${data.length} new events added to Kadosh site for ${data[0].EventHost}.`;
+  let message = `${data.length} new events added to Kadosh site for ${data[0].fields.EventHost}.`;
   data.forEach((event: AirtableRecord<FieldSet>) => {
     message += `\nNew event: https://airtable.com/apphhKdSx7C8A6x1x/tbllgWR89CpH9EHKg/viwiPs5LjCTuSqwtI/${event.id}`;
   });

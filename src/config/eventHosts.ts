@@ -62,7 +62,7 @@ const EVENT_HOSTS = [
           Description: '',
           Cost: 0,
           EventHost: 'Austin Stone',
-          OriginalURL: e.href,
+          OriginalURL: e.OriginalURL,
           Image: e.Image,
           IdealAudience: [],
         } as Partial<ChristianEvent>,
