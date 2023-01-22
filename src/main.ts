@@ -46,28 +46,34 @@ const scrapeEventHosts = async () => {
   try {
     await Promise.all(
       EVENT_HOSTS.map(async (eventHost) => {
-        console.log(`Navigating to ${eventHost.url}...`);
+        console.log(`${eventHost.name}: Navigating to ${eventHost.url}...`);
 
         const page = await browser.newPage();
         await page.goto(eventHost.url);
 
         await page.content();
+        if (eventHost.waitForSelector) {
+          await page.waitForSelector(eventHost.waitForSelector);
+        }
 
-        console.log('Querying web page DOM for events...');
+        console.log(`${eventHost.name}: Querying web page DOM for events...`);
         const events = await page.evaluate(eventHost.domQuery);
-        console.log(`${events.length} events detected in DOM.`);
+        console.log(
+          `${eventHost.name}: ${events.length} events detected in DOM.`,
+        );
 
-        console.log('Formatting event data...');
+        console.log(`${eventHost.name}: Formatting event data...`);
         const formattedEventData: Insertable[] = events.map((e: any) =>
           eventHost.formatter(e),
         );
-        console.log('Event data formatted.');
+        console.log(`${eventHost.name}: Event data formatted.`);
 
-        console.log('Uploading event data to Airtable...');
+        console.log(`${eventHost.name}: Uploading event data to Airtable...`);
         await insertData(formattedEventData);
       }),
     );
   } catch (err) {
+    throw err;
   } finally {
     console.log('Closing browser.');
     await browser.close();
